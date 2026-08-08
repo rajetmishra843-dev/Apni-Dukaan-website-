@@ -25,10 +25,12 @@
     --maxw:1240px;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;width:100%;}
+  html, body{overflow-x:hidden;}
   body{
     font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);
     -webkit-font-smoothing:antialiased;font-size:15px;
+    width:100%;min-height:100vh;
   }
   h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
   .mono{font-family:'IBM Plex Mono',monospace;}
@@ -37,8 +39,12 @@
   img{max-width:100%;display:block;}
   button{font-family:inherit;}
   :focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px;}
   body.locked{overflow:hidden;}
+  .grid > *, .footer-grid > *, .why-grid > *, .testi-grid > *, .trust > .wrap > *, .cat-tiles > *, .hero-layout > *, .deal-scroll > * {
+    min-width:0;
+  }
+  .footer-grid li, .footer-grid a, .footer-grid p{overflow-wrap:break-word;word-break:break-word;}
 
   /* ---------- UTILITY BAR ---------- */
   .util-bar{background:var(--navy);color:#B8B3A6;font-size:0.76rem;}
@@ -972,6 +978,10 @@ function placeOrder(){
   }
 
   // Online payment via Razorpay
+  if(typeof Razorpay === 'undefined'){
+    showToast("Payment gateway load nahi hui — internet check karein aur page refresh karein");
+    return;
+  }
   const options = {
     key: "rzp_live_TMWrmRjHs1cfUn",
     amount: Math.round(total * 100), // paise
@@ -990,7 +1000,7 @@ function placeOrder(){
   try{
     const rzp = new Razorpay(options);
     rzp.on('payment.failed', function(response){
-      showToast("Payment fail ho gaya, dobara try karein");
+      showToast("Payment fail ho gaya: " + (response.error && response.error.description ? response.error.description : "dobara try karein"));
     });
     rzp.open();
   } catch(e){
