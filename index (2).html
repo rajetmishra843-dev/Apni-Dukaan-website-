@@ -1145,6 +1145,13 @@ function placeOrder(){
 function showOrderConfirmation(order){
   const orderId = "AD" + Math.floor(100000 + Math.random()*900000);
   order.orderId = orderId;
+  window._lastOrder = order;
+
+  // Try automatic WhatsApp send right away (works reliably for COD;
+  // may be blocked by the browser for online payments — button below is the fallback)
+  const waWindow = notifyWhatsApp(order);
+  const waBlocked = !waWindow || waWindow.closed || typeof waWindow.closed === 'undefined';
+
   document.getElementById('checkoutTitle').textContent = "Order Confirmed";
   document.getElementById('checkoutBody').innerHTML = `
     <div class="confirm-view">
@@ -1156,10 +1163,11 @@ function showOrderConfirmation(order){
       ${order.paymentId ? `<p>Payment ID: <b>${order.paymentId}</b></p>` : ''}
       <p>Total Amount: <b>${fmt(order.total)}</b></p>
       <p>Estimated delivery: 3-5 din mein, ${order.pincode} par.</p>
-      <button class="checkout-btn" style="margin-top:12px;background:#1FB855;color:#fff;" onclick="sendOrderToWhatsApp('${orderId}')">📱 Order Details WhatsApp Par Bhejein</button>
+      ${waBlocked ? `<p style="font-size:0.78rem;color:var(--muted);margin-top:10px;">WhatsApp automatically nahi khula — neeche button dabayein.</p>
+      <button class="checkout-btn" style="margin-top:8px;background:#1FB855;color:#fff;" onclick="sendOrderToWhatsApp('${orderId}')">📱 Order Details WhatsApp Par Bhejein</button>` :
+      `<p style="font-size:0.78rem;color:var(--green);margin-top:10px;">✓ Order details WhatsApp par bhej diye gaye hain</p>`}
       <button class="checkout-btn" style="margin-top:10px;" onclick="closeAll();resetCartAfterOrder();">Shopping Jari Rakhein</button>
     </div>`;
-  window._lastOrder = order;
   cart = [];
   updateBadges();
   notifyGoogleSheet(order);
@@ -1199,7 +1207,7 @@ function notifyWhatsApp(order){
     `Total: ${fmt(order.total)}\n` +
     `Payment: ${order.method}` + (order.paymentId ? ` (${order.paymentId})` : '');
   const url = `https://wa.me/${NOTIFY_CONFIG.OWNER_WHATSAPP}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  return window.open(url, '_blank');
 }
 
 function notifyGoogleSheet(order){
