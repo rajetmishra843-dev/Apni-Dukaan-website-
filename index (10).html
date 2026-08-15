@@ -23,6 +23,7 @@
     --muted:#7A7365;
     --radius:10px;
     --maxw:1240px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;width:100%;}
@@ -56,13 +57,16 @@
   @media (max-width:760px){ .util-bar .util-left span:nth-child(2){display:none;} .util-bar .util-right a:nth-child(2){display:none;} }
 
   /* ---------- HEADER ---------- */
-  header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 0 rgba(15,18,41,0.03);}
+  header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 0 rgba(15,18,41,0.03);transition:box-shadow .3s var(--ease);}
+  header.scrolled{box-shadow:0 8px 24px rgba(15,18,41,0.09);}
   .header-main{display:flex;align-items:center;gap:26px;height:78px;}
   .brand{display:flex;align-items:center;gap:9px;flex-shrink:0;background:none;border:none;cursor:pointer;}
   .brand .mark{
-    width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    border-radius:50%;background:#fff;border:1.5px solid var(--border);box-shadow:0 2px 6px rgba(15,18,41,0.08);
+    overflow:hidden;padding:4px;box-sizing:border-box;
   }
-  .brand .mark img{width:100%;height:100%;object-fit:contain;}
+  .brand .mark img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
   .brand-text{display:flex;flex-direction:column;line-height:1.1;text-align:left;}
   .brand-text .name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:var(--navy);}
   .brand-text .brand-sub{font-family:'IBM Plex Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
@@ -115,8 +119,9 @@
   .hero-banner h1{color:#fff;font-size:2.5rem;line-height:1.15;font-weight:700;letter-spacing:-0.02em;max-width:480px;margin-bottom:16px;position:relative;}
   .hero-banner p{color:#C9C4B6;font-size:0.98rem;max-width:420px;margin-bottom:26px;position:relative;}
   .hero-banner .btn-row{display:flex;gap:12px;position:relative;}
-  .btn-gold{background:var(--gold);color:#241C04;padding:13px 24px;border-radius:8px;font-weight:700;font-size:0.88rem;border:none;cursor:pointer;transition:transform .15s;}
-  .btn-gold:hover{transform:translateY(-2px);}
+  .btn-gold{background:var(--gold);color:#241C04;padding:13px 24px;border-radius:8px;font-weight:700;font-size:0.88rem;border:none;cursor:pointer;transition:transform .25s var(--ease), box-shadow .25s var(--ease);}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(200,155,44,0.35);}
+  .btn-gold:active{transform:translateY(0) scale(0.97);}
   .btn-outline{background:transparent;color:#fff;padding:13px 24px;border-radius:8px;font-weight:700;font-size:0.88rem;border:1.5px solid rgba(255,255,255,0.4);cursor:pointer;}
   .btn-outline:hover{border-color:#fff;}
   .promo-stack{display:flex;flex-direction:column;gap:18px;}
@@ -130,6 +135,23 @@
   @media (max-width:600px){ .promo-stack{flex-direction:column;} .hero-banner{padding:30px 22px;} }
 
   /* ---------- TRUST STRIP ---------- */
+  /* ---------- RAKHI FESTIVAL BANNER ---------- */
+  .rakhi-banner{
+    background:linear-gradient(120deg, #7A1F2B 0%, #B5442E 55%, #C89B2C 100%);
+    border-radius:var(--radius);padding:30px 34px;display:flex;justify-content:space-between;align-items:center;
+    gap:20px;flex-wrap:wrap;position:relative;overflow:hidden;
+  }
+  .rakhi-banner::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);}
+  .rakhi-banner-content{display:flex;align-items:center;gap:18px;position:relative;}
+  .rakhi-emoji{font-size:2.6rem;flex-shrink:0;}
+  .rakhi-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:#FDE8B8;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:4px;}
+  .rakhi-banner h2{color:#fff;font-size:1.5rem;font-weight:700;margin-bottom:4px;}
+  .rakhi-banner p{color:#F6E4C8;font-size:0.85rem;max-width:420px;}
+  .rakhi-banner .btn-gold{flex-shrink:0;position:relative;}
+  #rakhi-special{display:none;}
+  #rakhi-special.has-products{display:block;}
+  @media (max-width:700px){ .rakhi-banner{flex-direction:column;align-items:flex-start;} .rakhi-banner-content{flex-direction:column;align-items:flex-start;} }
+
   .trust{border-bottom:1px solid var(--border);background:#fff;}
   .trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
   .trust-item{padding:22px 16px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border);}
@@ -143,7 +165,12 @@
   section{padding:48px 0;}
   .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
   .section-title{font-size:1.4rem;font-weight:700;letter-spacing:-0.01em;color:var(--ink);display:flex;align-items:center;gap:10px;}
-  .section-title .bar{width:5px;height:20px;background:var(--gold);border-radius:3px;display:inline-block;}
+  .section-title .bar{
+    width:5px;height:20px;border-radius:3px;display:inline-block;
+    background:linear-gradient(180deg, var(--gold-soft), var(--gold), var(--blue-soft), var(--gold));
+    background-size:100% 300%;animation:barShimmer 4s linear infinite;
+  }
+  @keyframes barShimmer{ 0%{background-position:0 0;} 100%{background-position:0 300%;} }
   .see-all{font-size:0.82rem;font-weight:700;color:var(--blue-soft);display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;}
 
   /* ---------- DEAL OF THE DAY ---------- */
@@ -180,13 +207,31 @@
 
   /* ---------- PRODUCT GRID ---------- */
   .tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
-  .tab-btn{padding:9px 18px;border-radius:8px;font-weight:700;font-size:0.82rem;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .tab-btn{padding:9px 18px;border-radius:8px;font-weight:700;font-size:0.82rem;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .25s var(--ease);}
   .tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
   .empty-note{padding:40px;text-align:center;color:var(--muted);font-size:0.9rem;grid-column:1/-1;}
-  .card{background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s, border-color .2s;display:flex;flex-direction:column;}
-  .card:hover{box-shadow:0 12px 28px rgba(15,18,41,0.08);}
-  .card-media{aspect-ratio:1/1;position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg-alt);cursor:pointer;}
+  .card{background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);transition:box-shadow .35s var(--ease), border-color .35s var(--ease), transform .35s var(--ease);display:flex;flex-direction:column;}
+  .card:hover{box-shadow:0 20px 36px rgba(15,18,41,0.12);border-color:transparent;transform:translateY(-4px);}
+  .card-media{aspect-ratio:1/1;position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg-alt);cursor:pointer;perspective:800px;overflow:hidden;}
+  .card-media.loading::after, .deal-media.loading::after, .qv-media.loading::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+    background-size:200% 100%;animation:mediaShimmer 1.3s infinite;
+  }
+  @keyframes mediaShimmer{ 0%{background-position:150% 0;} 100%{background-position:-50% 0;} }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease), transform .7s var(--ease);}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none;} }
+
+  /* ---------- BADGE PULSE ---------- */
+  @keyframes badgePulse{ 0%{transform:scale(1);} 45%{transform:scale(1.4);} 100%{transform:scale(1);} }
+  .badge.pulse{animation:badgePulse .4s var(--ease);}
+
+  .card-media img{transition:transform .15s ease-out;transform-style:preserve-3d;will-change:transform;}
+  .card-media img:hover{box-shadow:0 12px 24px rgba(0,0,0,0.15);}
   .card-media svg{width:48%;height:48%;} .card-media img{width:100%;height:100%;object-fit:cover;}
   .tag{position:absolute;top:9px;left:9px;font-size:0.62rem;font-weight:800;padding:4px 8px;border-radius:5px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.02em;}
   .tag.hot{background:var(--gold);color:#241C04;}
@@ -208,8 +253,9 @@
   .card-price-row{display:flex;align-items:baseline;gap:7px;margin-top:auto;padding-top:8px;flex-wrap:wrap;}
   .off{font-size:0.72rem;color:var(--green);font-weight:700;}
   .delivery-note{font-size:0.7rem;color:var(--muted);margin-top:2px;}
-  .add-btn{margin-top:10px;width:100%;padding:10px;border-radius:7px;background:var(--navy);border:none;font-weight:700;font-size:0.8rem;color:#fff;cursor:pointer;transition:background .15s;}
+  .add-btn{margin-top:10px;width:100%;padding:10px;border-radius:7px;background:var(--navy);border:none;font-weight:700;font-size:0.8rem;color:#fff;cursor:pointer;transition:background .25s var(--ease), transform .15s var(--ease);}
   .add-btn:hover{background:var(--blue-soft);}
+  .add-btn:active{transform:scale(0.96);}
   @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} }
 
   /* ---------- WHY STRIP ---------- */
@@ -238,6 +284,15 @@
   .cta-band h3{color:#fff;font-size:1.4rem;font-weight:700;max-width:420px;}
   .cta-band p{color:#C9C4B6;font-size:0.85rem;margin-top:6px;}
 
+  /* ---------- LOCATION ---------- */
+  .location-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;background:var(--bg-alt);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);}
+  .location-info{padding:32px 28px;display:flex;flex-direction:column;justify-content:center;}
+  .location-info h3{font-size:1.15rem;font-weight:700;margin-bottom:10px;}
+  .location-info p{font-size:0.88rem;color:var(--ink);margin-bottom:6px;}
+  .location-info a{color:var(--blue-soft);font-weight:700;}
+  .location-map{width:100%;min-height:260px;border:none;display:block;}
+  @media (max-width:760px){ .location-wrap{grid-template-columns:1fr;} .location-map{min-height:220px;} }
+
   /* ---------- FOOTER ---------- */
   footer{background:var(--navy);color:#B8B3A6;padding-top:52px;}
   .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1fr;gap:30px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,0.1);}
@@ -263,11 +318,11 @@
   .toast .dot{width:8px;height:8px;border-radius:50%;background:var(--gold-soft);}
 
   /* ---------- OVERLAY / DRAWER ---------- */
-  .overlay{position:fixed;inset:0;background:rgba(10,10,10,0.55);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .overlay{position:fixed;inset:0;background:rgba(10,10,10,0.55);backdrop-filter:blur(3px);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
   .overlay.show{opacity:1;pointer-events:auto;}
   .drawer{
     position:fixed;top:0;right:0;height:100%;width:400px;max-width:92vw;background:#fff;z-index:95;
-    box-shadow:-10px 0 40px rgba(0,0,0,0.25);transform:translateX(100%);transition:transform .3s ease;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.25);transform:translateX(100%);transition:transform .4s var(--ease);
     display:flex;flex-direction:column;
   }
   .drawer.show{transform:translateX(0);}
@@ -299,36 +354,64 @@
   .wish-actions{display:flex;flex-direction:column;gap:6px;}
   .wish-actions button{font-size:0.68rem;font-weight:700;padding:6px 8px;border-radius:5px;cursor:pointer;border:1px solid var(--border);background:#fff;}
   .drawer-foot{border-top:1px solid var(--border);padding:18px 22px;}
+  .promo-row{display:flex;gap:8px;margin-bottom:14px;}
+  .promo-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:0.82rem;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;outline:none;}
+  .promo-row input:focus{border-color:var(--navy);}
+  .promo-row button{padding:9px 16px;border-radius:7px;background:var(--navy);color:#fff;border:none;font-weight:700;font-size:0.78rem;cursor:pointer;white-space:nowrap;}
+  .promo-row button:hover{background:var(--blue-soft);}
+  .promo-row.applied{
+    background:rgba(62,107,79,0.1);border:1px dashed var(--green);border-radius:7px;padding:9px 12px;
+    align-items:center;justify-content:space-between;
+  }
+  .promo-row.applied span{font-size:0.8rem;font-weight:700;color:var(--green);}
+  .promo-row.applied button{background:none;color:var(--muted);font-weight:600;text-decoration:underline;padding:2px 4px;font-size:0.72rem;}
   .summary-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;color:var(--muted);}
   .summary-row.total{color:var(--ink);font-weight:800;font-size:1rem;margin-top:6px;}
-  .checkout-btn{width:100%;padding:14px;border-radius:8px;background:var(--gold);border:none;font-weight:800;font-size:0.9rem;color:#241C04;cursor:pointer;margin-top:8px;}
+  .checkout-btn{width:100%;padding:14px;border-radius:8px;background:var(--gold);border:none;font-weight:800;font-size:0.9rem;color:#241C04;cursor:pointer;margin-top:8px;transition:transform .2s var(--ease), box-shadow .2s var(--ease);}
+  .checkout-btn:hover{box-shadow:0 10px 20px rgba(200,155,44,0.3);}
+  .checkout-btn:active{transform:scale(0.97);}
   .checkout-btn:disabled{opacity:0.5;cursor:not-allowed;}
 
   /* ---------- MODAL ---------- */
   .modal{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);z-index:96;background:#fff;border-radius:14px;
-    width:560px;max-width:92vw;max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:all .25s;
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-46%) scale(0.96);z-index:96;background:#fff;border-radius:14px;
+    width:560px;max-width:92vw;max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s var(--ease), transform .35s var(--ease);
     box-shadow:0 30px 80px rgba(0,0,0,0.3);
   }
-  .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
+  .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
   .modal-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border);}
   .modal-head h3{font-size:1.05rem;font-weight:700;}
   .modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);}
   .modal-body{padding:24px;}
 
-  .qv-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-  .qv-media{aspect-ratio:1/1;background:var(--bg-alt);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;}
-  .qv-media svg{width:55%;height:55%;} .qv-media img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
-  .qv-info .card-cat{margin-bottom:6px;}
-  .qv-info h2{font-size:1.2rem;margin-bottom:8px;}
-  .qv-info .card-rating{margin-bottom:10px;}
-  .qv-info .card-price-row{margin-bottom:6px;}
-  .qv-info .delivery-note{margin-bottom:16px;}
-  .qv-qty{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-  .qv-actions{display:flex;gap:10px;}
-  .qv-actions .btn-outline2{flex:1;padding:12px;border-radius:8px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;font-size:0.85rem;cursor:pointer;}
-  .qv-actions .add-btn{flex:1;margin-top:0;}
-  @media (max-width:600px){ .qv-layout{grid-template-columns:1fr;} }
+  .qv-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:32px;}
+  .qv-media{aspect-ratio:1/1;background:var(--bg-alt);border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid var(--border);perspective:1000px;overflow:hidden;}
+  .qv-media img{transition:transform .15s ease-out;will-change:transform;}
+  .qv-media svg{width:55%;height:55%;} .qv-media img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
+  .qv-info{display:flex;flex-direction:column;}
+  .qv-info .card-cat{margin-bottom:8px;font-size:0.72rem;}
+  .qv-info h2{font-size:1.55rem;line-height:1.28;margin-bottom:14px;font-weight:700;letter-spacing:-0.01em;}
+  .qv-info .card-rating{margin-bottom:16px;font-size:0.86rem;}
+  .qv-info .card-price-row{margin-bottom:10px;gap:10px;}
+  .qv-info .card-price-row .price{font-size:1.45rem;}
+  .qv-info .card-price-row .price-old{font-size:0.9rem;}
+  .qv-info .delivery-note{margin-bottom:20px;font-size:0.82rem;}
+  .qv-info p{font-size:0.92rem !important;line-height:1.65 !important;}
+  .qv-qty{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding:10px 16px;background:var(--bg-alt);border-radius:10px;width:fit-content;}
+  .qv-qty .qty-btn{width:30px;height:30px;font-size:1.05rem;}
+  .qv-qty #qvQty{font-size:0.95rem;min-width:22px;}
+  .qv-actions{display:flex;gap:12px;margin-top:auto;}
+  .qv-actions .btn-outline2{flex:1;padding:14px;border-radius:9px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;font-size:0.9rem;cursor:pointer;transition:background .15s,color .15s;}
+  .qv-actions .btn-outline2:hover{background:var(--navy);color:#fff;}
+  .qv-actions .add-btn{flex:1;margin-top:0;padding:14px;font-size:0.9rem;}
+  #qvModal{width:860px;max-width:94vw;}
+  #qvModal .modal-body{padding:32px;}
+  #qvModal .modal-head{padding:22px 28px;}
+  @media (max-width:700px){
+    .qv-layout{grid-template-columns:1fr;gap:20px;}
+    #qvModal .modal-body{padding:22px;}
+    .qv-info h2{font-size:1.3rem;}
+  }
 
   .form-group{margin-bottom:14px;}
   .form-group label{display:block;font-size:0.78rem;font-weight:700;margin-bottom:6px;color:var(--ink);}
@@ -365,7 +448,7 @@
     </div>
     <div class="util-right">
       <a href="https://wa.me/916378690335" target="_blank">💬 WhatsApp Par Chat Karein</a>
-      <a href="#">Order Track Karein</a>
+      <a href="#" onclick="openTrackOrder();return false;">Order Track Karein</a>
       <a href="#">Help Center</a>
     </div>
   </div>
@@ -411,6 +494,27 @@
     </div>
     <div class="promo-stack" id="promoStack"></div>
   </div>
+</section>
+
+<section class="wrap">
+  <div class="rakhi-banner">
+    <div class="rakhi-banner-content">
+      <span class="rakhi-emoji">🪢</span>
+      <div>
+        <span class="rakhi-eyebrow">Raksha Bandhan Special</span>
+        <h2>Rakhi Festival Collection</h2>
+        <p>Rakhi thread, gift hampers aur combo sets — apne bhai-behen ke rishte ko banayein aur khaas.</p>
+      </div>
+    </div>
+    <button class="btn-gold" onclick="scrollToRakhi()">Collection Dekhein →</button>
+  </div>
+</section>
+
+<section class="wrap" id="rakhi-special">
+  <div class="section-head">
+    <h2 class="section-title"><span class="bar"></span>🪢 Rakhi Special</h2>
+  </div>
+  <div class="grid" id="rakhiGrid"></div>
 </section>
 
 <section class="trust">
@@ -493,6 +597,19 @@
   </div>
 </section>
 
+<section class="wrap" id="location">
+  <div class="section-head"><h2 class="section-title"><span class="bar"></span>Hamara Location</h2></div>
+  <div class="location-wrap">
+    <div class="location-info">
+      <h3>Apni Dukaan Ecommerce India</h3>
+      <p>📍 Ajmer, Rajasthan, India — 305001</p>
+      <p>📞 <a href="https://wa.me/916378690335" target="_blank">+91 63786 90335</a> (WhatsApp)</p>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:8px;">Poore India mein online delivery available.</p>
+    </div>
+    <iframe class="location-map" src="https://maps.google.com/maps?q=Ajmer%2C%20Rajasthan&t=&z=12&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="footer-grid">
@@ -504,9 +621,9 @@
         </div>
       </div>
       <div><h5>Shop</h5><ul id="footerShopLinks"><li><a href="#trending">Sab Products</a></li><li><a href="#" onclick="document.querySelector('.deal-band').scrollIntoView({behavior:'smooth'});return false;">Deal of the Day</a></li></ul></div>
-      <div><h5>Help</h5><ul><li><a href="#">Order Track Karein</a></li><li><a href="#">Return &amp; Refund</a></li><li><a href="#">Shipping Info</a></li><li><a href="#">Contact Us</a></li></ul></div>
-      <div><h5>Company</h5><ul><li><a href="#">Humare Baare Mein</a></li><li><a href="#">Seller Bane</a></li><li><a href="#">Careers</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
-      <div><h5>Judiye</h5><ul><li><a href="https://wa.me/916378690335" target="_blank">WhatsApp</a></li><li><a href="https://www.instagram.com/apnidukaan_ecommerce_india?igsh=Nml0cGo4amViYzc0" target="_blank">Instagram</a></li><li><a href="#">Facebook</a></li></ul></div>
+      <div><h5>Help</h5><ul><li><a href="#" onclick="openTrackOrder();return false;">Order Track Karein</a></li><li><a href="#" onclick="openInfoModal('returns');return false;">Return &amp; Refund</a></li><li><a href="#" onclick="openInfoModal('shipping');return false;">Shipping Info</a></li><li><a href="#" onclick="openInfoModal('contact');return false;">Contact Us</a></li></ul></div>
+      <div><h5>Company</h5><ul><li><a href="#" onclick="openInfoModal('about');return false;">Humare Baare Mein</a></li><li><a href="#" onclick="openInfoModal('seller');return false;">Seller Bane</a></li><li><a href="#" onclick="openInfoModal('careers');return false;">Careers</a></li><li><a href="#" onclick="openInfoModal('privacy');return false;">Privacy Policy</a></li></ul></div>
+      <div><h5>Judiye</h5><ul><li><a href="https://wa.me/916378690335" target="_blank">WhatsApp</a></li><li><a href="https://www.instagram.com/apnidukaan_ecommerce_india?igsh=Nml0cGo4amViYzc0" target="_blank">Instagram</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Apni Dukaan. Sabhi rights reserved.</span>
@@ -547,6 +664,16 @@
 <div class="modal" id="loginModal">
   <div class="modal-head"><h3 id="loginModalTitle">Login Karein</h3><button class="modal-close" onclick="closeAll()">✕</button></div>
   <div class="modal-body" id="loginModalBody"></div>
+</div>
+
+<div class="modal" id="trackModal">
+  <div class="modal-head"><h3>Order Track Karein</h3><button class="modal-close" onclick="closeAll()">✕</button></div>
+  <div class="modal-body" id="trackModalBody"></div>
+</div>
+
+<div class="modal" id="infoModal">
+  <div class="modal-head"><h3 id="infoModalTitle">Info</h3><button class="modal-close" onclick="closeAll()">✕</button></div>
+  <div class="modal-body" id="infoModalBody"></div>
 </div>
 
 <script>
@@ -614,6 +741,12 @@ let wishlist = [];
 let filters = { category:"all", query:"" };
 let currentDrawerTab = "cart";
 let activeQVProduct = null;
+let appliedPromo = null;
+const PROMO_CODES = {
+  "WELCOME10": { type:"percent", value:10, minOrder:0,   label:"10% off pehle order par" },
+  "SAVE50":    { type:"flat",    value:50, minOrder:499, label:"₹50 off ₹499+ order par" },
+  "RAKHI20":   { type:"percent", value:20, minOrder:0,   label:"20% off Rakhi Special items par", restrictCategory:"Rakhi Special" }
+};
 
 /* ================= FIREBASE PHONE OTP LOGIN ================= */
 const firebaseConfig = {
@@ -739,7 +872,7 @@ function fmt(n){ return "₹" + n.toLocaleString("en-IN"); }
 function getProduct(id){ return PRODUCTS.find(p => p.id === id); }
 function productMedia(p, sizeClass){
   if(p.image){
-    return `<img src="${p.image}" alt="${p.name.replace(/"/g,'')}" loading="eager" referrerpolicy="no-referrer" onerror="this.onerror=null;this.outerHTML=FALLBACK_ICON;">`;
+    return `<img src="${p.image}" alt="${p.name.replace(/"/g,'')}" loading="eager" referrerpolicy="no-referrer" onload="this.parentElement.classList.remove('loading')" onerror="this.onerror=null;this.parentElement.classList.remove('loading');this.outerHTML=FALLBACK_ICON;">`;
   }
   return FALLBACK_ICON;
 }
@@ -763,9 +896,10 @@ function productCardHTML(p){
   const tagClass = p.tag === 'NEW' ? 'new' : 'hot';
   const inWishlist = wishlist.includes(p.id);
   const tagHTML = p.tag ? `<span class="tag ${tagClass}">${p.tag}</span>` : '';
+  const loadingClass = p.image ? ' loading' : '';
   return `
     <div class="card">
-      <div class="card-media" onclick="openQuickView(${p.id})">
+      <div class="card-media${loadingClass}" onclick="openQuickView(${p.id})">
         ${tagHTML}
         <button class="wish-btn ${inWishlist ? 'active' : ''}" onclick="event.stopPropagation();toggleWishlist(${p.id})">${inWishlist ? '♥' : '♡'}</button>
         ${productMedia(p)}
@@ -786,9 +920,10 @@ function productCardHTML(p){
 }
 
 function dealCardHTML(p){
+  const loadingClass = p.image ? ' loading' : '';
   return `
     <div class="deal-card">
-      <div class="deal-media" onclick="openQuickView(${p.id})">
+      <div class="deal-media${loadingClass}" onclick="openQuickView(${p.id})">
         <span class="discount-flag">${offPercent(p)}% OFF</span>
         ${productMedia(p)}
       </div>
@@ -853,6 +988,24 @@ function renderDeals(){
   }
   document.getElementById('dealScroll').innerHTML = deals.map(dealCardHTML).join('');
 }
+function renderRakhiSpecial(){
+  const rakhiProducts = PRODUCTS.filter(p => p.category === 'Rakhi Special');
+  const section = document.getElementById('rakhi-special');
+  if(rakhiProducts.length === 0){
+    section.classList.remove('has-products');
+    return;
+  }
+  section.classList.add('has-products');
+  document.getElementById('rakhiGrid').innerHTML = rakhiProducts.map(productCardHTML).join('');
+}
+function scrollToRakhi(){
+  const section = document.getElementById('rakhi-special');
+  if(section.classList.contains('has-products')){
+    section.scrollIntoView({behavior:'smooth'});
+  } else {
+    showToast("Rakhi collection jald hi aa rahi hai — stay tuned! 🪢");
+  }
+}
 function buildCategoryUI(){
   // search dropdown
   const sel = document.getElementById('searchCategory');
@@ -908,6 +1061,49 @@ function cartSubtotal(){
 function cartCount(){
   return cart.reduce((sum, l) => sum + l.qty, 0);
 }
+function calculateTotals(){
+  const subtotal = cartSubtotal();
+  let discount = 0;
+  if(appliedPromo){
+    let base = subtotal;
+    if(appliedPromo.restrictCategory){
+      base = cart.reduce((sum, l) => {
+        const p = getProduct(l.id);
+        return p.category === appliedPromo.restrictCategory ? sum + p.price * l.qty : sum;
+      }, 0);
+    }
+    discount = appliedPromo.type === 'percent' ? Math.round(base * appliedPromo.value / 100) : Math.min(appliedPromo.value, base);
+    discount = Math.min(discount, subtotal);
+  }
+  const delivery = subtotal >= 499 ? 0 : 49;
+  const total = (subtotal - discount) + delivery;
+  return { subtotal, discount, delivery, total };
+}
+function applyPromo(inputId){
+  const input = document.getElementById(inputId);
+  const code = input.value.trim().toUpperCase();
+  if(!code){ showToast("Promo code daalein"); return; }
+  const promo = PROMO_CODES[code];
+  if(!promo){ showToast("Ye promo code valid nahi hai"); return; }
+  const subtotal = cartSubtotal();
+  if(subtotal < promo.minOrder){ showToast(`Ye code ₹${promo.minOrder}+ order par valid hai`); return; }
+  if(promo.restrictCategory){
+    const hasMatch = cart.some(l => getProduct(l.id).category === promo.restrictCategory);
+    if(!hasMatch){
+      showToast(`Ye code sirf "${promo.restrictCategory}" products par valid hai — pehle wo cart mein add karein`);
+      return;
+    }
+  }
+  appliedPromo = { code, ...promo };
+  showToast(`✓ ${code} applied — ${promo.label}`);
+  renderDrawer();
+  if(document.getElementById('checkoutModal').classList.contains('show')) renderCheckoutSummary();
+}
+function removePromo(){
+  appliedPromo = null;
+  renderDrawer();
+  if(document.getElementById('checkoutModal').classList.contains('show')) renderCheckoutSummary();
+}
 
 function toggleWishlist(id){
   if(wishlist.includes(id)){
@@ -927,10 +1123,14 @@ function moveWishToCart(id){
 }
 
 function updateBadges(){
-  document.getElementById('cartBadge').textContent = cartCount();
-  document.getElementById('wishBadge').textContent = wishlist.length;
+  const cartBadgeEl = document.getElementById('cartBadge');
+  const wishBadgeEl = document.getElementById('wishBadge');
+  cartBadgeEl.textContent = cartCount();
+  wishBadgeEl.textContent = wishlist.length;
   document.getElementById('tabCartCount').textContent = cartCount();
   document.getElementById('tabWishCount').textContent = wishlist.length;
+  pulseBadge(cartBadgeEl);
+  pulseBadge(wishBadgeEl);
 }
 
 function openDrawer(tab){
@@ -973,12 +1173,16 @@ function renderDrawer(){
           </div>
         </div>`;
     }).join('');
-    const subtotal = cartSubtotal();
-    const delivery = subtotal >= 499 ? 0 : 49;
+    const totals = calculateTotals();
+    const promoRowHTML = appliedPromo
+      ? `<div class="promo-row applied"><span>🏷️ ${appliedPromo.code} applied — ${appliedPromo.label}</span><button onclick="removePromo()">Remove</button></div>`
+      : `<div class="promo-row"><input type="text" id="promoInputDrawer" placeholder="Promo code"><button onclick="applyPromo('promoInputDrawer')">Apply</button></div>`;
     foot.innerHTML = `
-      <div class="summary-row"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
-      <div class="summary-row"><span>Delivery</span><span>${delivery === 0 ? 'FREE' : fmt(delivery)}</span></div>
-      <div class="summary-row total"><span>Total</span><span>${fmt(subtotal + delivery)}</span></div>
+      ${promoRowHTML}
+      <div class="summary-row"><span>Subtotal</span><span>${fmt(totals.subtotal)}</span></div>
+      ${totals.discount > 0 ? `<div class="summary-row" style="color:var(--green)"><span>Discount</span><span>−${fmt(totals.discount)}</span></div>` : ''}
+      <div class="summary-row"><span>Delivery</span><span>${totals.delivery === 0 ? 'FREE' : fmt(totals.delivery)}</span></div>
+      <div class="summary-row total"><span>Total</span><span>${fmt(totals.total)}</span></div>
       <button class="checkout-btn" onclick="openCheckout()">Checkout Karein</button>`;
   } else {
     if(wishlist.length === 0){
@@ -1010,7 +1214,7 @@ function openQuickView(id){
   activeQVProduct = p;
   document.getElementById('qvBody').innerHTML = `
     <div class="qv-layout">
-      <div class="qv-media">${productMedia(p)}</div>
+      <div class="qv-media${p.image ? ' loading' : ''}">${productMedia(p)}</div>
       <div class="qv-info">
         <span class="card-cat">${p.category}</span>
         <h2>${p.name}</h2>
@@ -1060,15 +1264,9 @@ function openCheckout(){
 function openCheckoutForm(){
   selectedPayment = "COD";
   document.getElementById('checkoutTitle').textContent = "Checkout";
-  const subtotal = cartSubtotal();
-  const delivery = subtotal >= 499 ? 0 : 49;
   const prefillPhone = loggedInPhone ? loggedInPhone.replace('+91','') : '';
   document.getElementById('checkoutBody').innerHTML = `
-    <div class="order-summary-box">
-      <div class="summary-row"><span>${cartCount()} items</span><span>${fmt(subtotal)}</span></div>
-      <div class="summary-row"><span>Delivery</span><span>${delivery === 0 ? 'FREE' : fmt(delivery)}</span></div>
-      <div class="summary-row total"><span>Total</span><span>${fmt(subtotal + delivery)}</span></div>
-    </div>
+    <div class="order-summary-box" id="checkoutSummaryBox"></div>
     <div class="form-group"><label>Pura Naam</label><input type="text" id="ckName" placeholder="Aapka naam" required></div>
     <div class="form-row">
       <div class="form-group"><label>Phone Number</label><input type="tel" id="ckPhone" placeholder="10-digit mobile" value="${prefillPhone}" required></div>
@@ -1080,12 +1278,29 @@ function openCheckoutForm(){
       <div class="pay-opt active" data-pay="COD" onclick="selectPayment('COD')">💵 COD</div>
       <div class="pay-opt" data-pay="Online" onclick="selectPayment('Online')">💳 UPI / Card / Netbanking</div>
     </div>
-    <button class="checkout-btn" onclick="placeOrder()">Order Place Karein — ${fmt(subtotal + delivery)}</button>`;
+    <button class="checkout-btn" id="placeOrderBtn" onclick="placeOrder()">Order Place Karein</button>`;
+  renderCheckoutSummary();
   document.getElementById('drawer').classList.remove('show');
   document.getElementById('loginModal').classList.remove('show');
   document.getElementById('overlay').classList.add('show');
   document.getElementById('checkoutModal').classList.add('show');
   document.body.classList.add('locked');
+}
+function renderCheckoutSummary(){
+  const box = document.getElementById('checkoutSummaryBox');
+  if(!box) return;
+  const totals = calculateTotals();
+  const promoRowHTML = appliedPromo
+    ? `<div class="promo-row applied"><span>🏷️ ${appliedPromo.code} applied — ${appliedPromo.label}</span><button type="button" onclick="removePromo()">Remove</button></div>`
+    : `<div class="promo-row"><input type="text" id="promoInputCheckout" placeholder="Promo code"><button type="button" onclick="applyPromo('promoInputCheckout')">Apply</button></div>`;
+  box.innerHTML = `
+    ${promoRowHTML}
+    <div class="summary-row"><span>${cartCount()} items</span><span>${fmt(totals.subtotal)}</span></div>
+    ${totals.discount > 0 ? `<div class="summary-row" style="color:var(--green)"><span>Discount (${appliedPromo.code})</span><span>−${fmt(totals.discount)}</span></div>` : ''}
+    <div class="summary-row"><span>Delivery</span><span>${totals.delivery === 0 ? 'FREE' : fmt(totals.delivery)}</span></div>
+    <div class="summary-row total"><span>Total</span><span>${fmt(totals.total)}</span></div>`;
+  const btn = document.getElementById('placeOrderBtn');
+  if(btn) btn.textContent = `Order Place Karein — ${fmt(totals.total)}`;
 }
 function selectPayment(method){
   selectedPayment = method;
@@ -1100,14 +1315,16 @@ function placeOrder(){
     showToast("Kripya sabhi fields bharein");
     return;
   }
-  const total = cartSubtotal() + (cartSubtotal() >= 499 ? 0 : 49);
+  const totals = calculateTotals();
+  const total = totals.total;
   const orderItems = cart.map(l => {
     const p = getProduct(l.id);
     return { name: p.name, qty: l.qty, price: p.price };
   });
+  const promoInfo = appliedPromo ? { code: appliedPromo.code, discount: totals.discount } : null;
 
   if(selectedPayment === 'COD'){
-    showOrderConfirmation({name, phone, pincode, address, total, method:'COD', paymentId:null, items:orderItems});
+    showOrderConfirmation({name, phone, pincode, address, total, method:'COD', paymentId:null, items:orderItems, promo:promoInfo});
     return;
   }
 
@@ -1125,7 +1342,7 @@ function placeOrder(){
     prefill: { name: name, contact: phone },
     theme: { color: "#C89B2C" },
     handler: function(response){
-      showOrderConfirmation({name, phone, pincode, address, total, method:'Online (Razorpay)', paymentId:response.razorpay_payment_id, items:orderItems});
+      showOrderConfirmation({name, phone, pincode, address, total, method:'Online (Razorpay)', paymentId:response.razorpay_payment_id, items:orderItems, promo:promoInfo});
     },
     modal: {
       ondismiss: function(){ showToast("Payment cancel kar diya gaya"); }
@@ -1161,6 +1378,7 @@ function showOrderConfirmation(order){
       <div class="order-id">Order ID: ${orderId}</div>
       <p>Payment Method: <b>${order.method}</b></p>
       ${order.paymentId ? `<p>Payment ID: <b>${order.paymentId}</b></p>` : ''}
+      ${order.promo ? `<p>Promo Applied: <b>${order.promo.code}</b> (−${fmt(order.promo.discount)})</p>` : ''}
       <p>Total Amount: <b>${fmt(order.total)}</b></p>
       <p>Estimated delivery: 3-5 din mein, ${order.pincode} par.</p>
       ${waBlocked ? `<p style="font-size:0.78rem;color:var(--muted);margin-top:10px;">WhatsApp automatically nahi khula — neeche button dabayein.</p>
@@ -1169,6 +1387,7 @@ function showOrderConfirmation(order){
       <button class="checkout-btn" style="margin-top:10px;" onclick="closeAll();resetCartAfterOrder();">Shopping Jari Rakhein</button>
     </div>`;
   cart = [];
+  appliedPromo = null;
   updateBadges();
   notifyGoogleSheet(order);
   notifyEmail(order);
@@ -1196,6 +1415,30 @@ function notifyAllChannels(order){
   notifyEmail(order);
 }
 
+function openTrackOrder(){
+  document.getElementById('trackModalBody').innerHTML = `
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Abhi hamara automatic tracking system nahi bana hai — apna Order ID aur phone number bharein, hum WhatsApp par turant status bhej denge.</p>
+    <div class="form-group"><label>Order ID</label><input type="text" id="trackOrderId" placeholder="jaise AD483920"></div>
+    <div class="form-group"><label>Phone Number</label><input type="tel" id="trackPhone" placeholder="10-digit mobile" maxlength="10"></div>
+    <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="submitTrackOrder()">📱 WhatsApp Par Status Puchein</button>
+  `;
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('trackModal').classList.add('show');
+  document.body.classList.add('locked');
+}
+function submitTrackOrder(){
+  const orderId = document.getElementById('trackOrderId').value.trim();
+  const phone = document.getElementById('trackPhone').value.trim();
+  if(!orderId || !phone){
+    showToast("Order ID aur phone number dono bharein");
+    return;
+  }
+  const msg = `📦 *Order Status Puchna Hai*\n\nOrder ID: ${orderId}\nPhone: ${phone}\n\nKripya is order ka current status bata dijiye.`;
+  const url = `https://wa.me/${NOTIFY_CONFIG.OWNER_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+  closeAll();
+}
+
 function notifyWhatsApp(order){
   const itemsText = order.items.map(i => `${i.qty}x ${i.name} (${fmt(i.price)})`).join('\n');
   const msg = `🛍️ *Naya Order — Apni Dukaan*\n\n` +
@@ -1204,6 +1447,7 @@ function notifyWhatsApp(order){
     `Phone: ${order.phone}\n` +
     `Address: ${order.address}, ${order.pincode}\n\n` +
     `Items:\n${itemsText}\n\n` +
+    (order.promo ? `Promo Code: ${order.promo.code} (−${fmt(order.promo.discount)})\n` : '') +
     `Total: ${fmt(order.total)}\n` +
     `Payment: ${order.method}` + (order.paymentId ? ` (${order.paymentId})` : '');
   const url = `https://wa.me/${NOTIFY_CONFIG.OWNER_WHATSAPP}?text=${encodeURIComponent(msg)}`;
@@ -1257,7 +1501,80 @@ function closeAll(){
   document.getElementById('qvModal').classList.remove('show');
   document.getElementById('checkoutModal').classList.remove('show');
   document.getElementById('loginModal').classList.remove('show');
+  document.getElementById('trackModal').classList.remove('show');
+  document.getElementById('infoModal').classList.remove('show');
   document.body.classList.remove('locked');
+}
+
+const INFO_CONTENT = {
+  returns: {
+    title: "Return & Refund Policy",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>7 din ka Easy Return</b> — Delivery ke 7 din ke andar, agar product damaged, wrong ya defective aaya ho to return/replace kar sakte hain.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;">Product unused, original packaging aur tags ke saath hona chahiye.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;">Refund original payment method mein ya store credit ke roop mein diya jaata hai — COD orders ke liye bank transfer se refund hoga.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Return shuru karne ke liye apna Order ID WhatsApp par bhej dijiye.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20mujhe%20apna%20order%20return%2Frefund%20karwana%20hai','_blank')">📱 Return Request WhatsApp Par Bhejein</button>`
+  },
+  shipping: {
+    title: "Shipping Info",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Free Delivery</b> — ₹499 aur usse zyada ke order par delivery bilkul free hai. Usse kam order par ₹49 delivery charge lagta hai.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Delivery Time</b> — Order ke 2-5 business din mein poore India mein delivery ho jaati hai.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>COD Available</b> — Cash on Delivery poore India mein available hai.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Order dispatch hone ke baad tracking details WhatsApp par bhej di jaati hain.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20shipping%20ke%20baare%20mein%20jaankari%20chahiye','_blank')">📱 WhatsApp Par Puchein</button>`
+  },
+  contact: {
+    title: "Contact Us",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:8px;">📍 Ajmer, Rajasthan, India — 305001</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Kisi bhi sawal, order ya complaint ke liye humse WhatsApp par seedha connect ho sakte hain — hum jald se jald reply karenge.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20mujhe%20kuch%20puchna%20hai','_blank')">📱 WhatsApp Par Chat Karein</button>
+      <button class="checkout-btn" style="margin-top:10px;" onclick="window.open('https://www.instagram.com/apnidukaan_ecommerce_india?igsh=Nml0cGo4amViYzc0','_blank')">📷 Instagram Par Follow Karein</button>`
+  },
+  about: {
+    title: "Humare Baare Mein",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Apni Dukaan</b> Ajmer, Rajasthan se chalne wala ek online store hai — Home & Kitchen, Fashion, Jewellery, Kids aur trending gadgets tak, ek hi jagah genuine products.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;">Hamara maqsad hai poore India mein customers ko quality products, affordable prices aur reliable delivery ke saath ek trusted shopping experience dena.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Har product verified sellers se aata hai aur delivery se pehle quality-check hota hai.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20mujhe%20Apni%20Dukaan%20ke%20baare%20mein%20aur%20jaanna%20hai','_blank')">📱 WhatsApp Par Baat Karein</button>`
+  },
+  seller: {
+    title: "Seller Bane",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;">Apna business Apni Dukaan par list karna chahte hain? Hum naye sellers ko welcome karte hain.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Kya chahiye:</b> Business/product details, quality product photos, aur competitive pricing.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Apply karne ke liye WhatsApp par apna naam, business type aur products ke baare mein bata dijiye — team aapse contact karegi.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20main%20Apni%20Dukaan%20par%20seller%20banna%20chahta%2Fchahti%20hoon','_blank')">📱 Seller Bannay Ke Liye Apply Karein</button>`
+  },
+  careers: {
+    title: "Careers",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;">Abhi koi specific opening list nahi hai, lekin hum hamesha talented logon se milna pasand karte hain — chahe delivery, customer support, ya marketing mein interest ho.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Apna resume ya interest WhatsApp par bhej dijiye, future openings ke liye sabse pehle aapse contact karenge.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20mujhe%20Apni%20Dukaan%20mein%20job%20opportunities%20ke%20baare%20mein%20jaanna%20hai','_blank')">📱 WhatsApp Par Interest Bhejein</button>`
+  },
+  privacy: {
+    title: "Privacy Policy",
+    body: `
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Hum kya collect karte hain:</b> Order place karte waqt naam, phone number, delivery address aur payment method — sirf order fulfill karne ke liye.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Kaise use hota hai:</b> Ye jaankari sirf delivery, order updates aur customer support ke liye use hoti hai — kabhi bhi third-party ko bina zaroorat bechi ya share nahi ki jaati.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:12px;"><b>Payment security:</b> Online payments Razorpay ke through secure hote hain — hum aapki card/UPI details store nahi karte.</p>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:16px;">Apni data ke baare mein koi sawal ho ya delete karwana ho, WhatsApp par bata dijiye.</p>
+      <button class="checkout-btn" style="background:#1FB855;color:#fff;" onclick="window.open('https://wa.me/916378690335?text=Hi%2C%20mujhe%20privacy%20policy%20ke%20baare%20mein%20jaankari%20chahiye','_blank')">📱 WhatsApp Par Puchein</button>`
+  }
+};
+
+function openInfoModal(type){
+  const info = INFO_CONTENT[type];
+  if(!info) return;
+  document.getElementById('infoModalTitle').textContent = info.title;
+  document.getElementById('infoModalBody').innerHTML = info.body;
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('infoModal').classList.add('show');
+  document.body.classList.add('locked');
 }
 function toggleMobileSearch(){
   document.getElementById('mobileSearch').classList.toggle('show');
@@ -1272,10 +1589,74 @@ if(NOTIFY_CONFIG.EMAILJS_PUBLIC_KEY && typeof emailjs !== 'undefined'){
 }
 
 renderDeals();
+renderRakhiSpecial();
+
+/* ================= 3D TILT EFFECT ================= */
+function apply3DTilt(container){
+  container.addEventListener('mousemove', (e) => {
+    const media = e.target.closest('.card-media, .qv-media, .deal-media');
+    if(!media) return;
+    const img = media.querySelector('img');
+    if(!img) return;
+    const rect = media.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;   // 0 to 1
+    const y = (e.clientY - rect.top) / rect.height;   // 0 to 1
+    const rotateY = (x - 0.5) * 18;   // max 9deg either side
+    const rotateX = (0.5 - y) * 18;
+    img.style.transform = `scale3d(1.06,1.06,1.06) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+  container.addEventListener('mouseleave', (e) => {
+    const media = e.target.closest ? e.target.closest('.card-media, .qv-media, .deal-media') : null;
+  }, true);
+  container.addEventListener('mouseout', (e) => {
+    const media = e.target.closest('.card-media, .qv-media, .deal-media');
+    if(!media) return;
+    const related = e.relatedTarget;
+    if(related && media.contains(related)) return;
+    const img = media.querySelector('img');
+    if(img) img.style.transform = 'scale3d(1,1,1) rotateX(0deg) rotateY(0deg)';
+  });
+}
+apply3DTilt(document.body);
 buildCategoryUI();
 renderPromoTiles();
 renderProducts();
 updateBadges();
+
+/* ================= HEADER SCROLL SHADOW ================= */
+const headerEl = document.querySelector('header');
+window.addEventListener('scroll', () => {
+  headerEl.classList.toggle('scrolled', window.scrollY > 8);
+}, { passive: true });
+
+/* ================= SCROLL REVEAL ================= */
+document.querySelectorAll('.trust-item, .cat-tile, .why-item, .testi-card, .deal-band, .cta-band, .location-wrap, .rakhi-banner').forEach(el => {
+  el.classList.add('reveal');
+});
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+// Re-observe category tiles after they're rebuilt dynamically
+setTimeout(() => {
+  document.querySelectorAll('#catTiles .cat-tile').forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+}, 100);
+
+/* ================= BADGE PULSE ================= */
+function pulseBadge(el){
+  if(!el) return;
+  el.classList.remove('pulse');
+  void el.offsetWidth;
+  el.classList.add('pulse');
+}
 
 function renderPromoTiles(){
   const top2 = CATEGORY_ORDER.slice(0, 2);
